@@ -3,7 +3,7 @@ import Text from "./Text";
 
 const AppBarTab = ({ linkUrl, children }) => {
     return (
-        <Link to={linkUrl}>
+        <Link to={linkUrl} style={{ marginRight: 16 }}>
             <Text fontWeight="bold" fontSize="subheading" color="textSecondary">
                 {children}
             </Text>
