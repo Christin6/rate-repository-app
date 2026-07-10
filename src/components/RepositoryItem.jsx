@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     },
     cardRow: {
         flexDirection: "row",
+        flex: 1,
         gap: 12,
     },
     rowSpaceEvenly: {
@@ -51,7 +52,7 @@ const RepositoryItem = ({ item }) => {
                     source={{ uri: item.ownerAvatarUrl }}
                     style={styles.avatar}
                 />
-                <View style={{ gap: 6 }}>
+                <View style={{ gap: 6, flex:1 }}>
                     <Text fontWeight="bold" fontSize="subheading">
                         {item.fullName}
                     </Text>
