@@ -6,6 +6,7 @@ import theme from "../theme";
 import { useState } from "react";
 
 import useSignIn from "../hooks/useSignIn";
+import AuthStorage from "../utils/authStorage";
 
 const styles = StyleSheet.create({
     container: {
@@ -51,15 +52,17 @@ const validationSchema = yup.object().shape({
 });
 
 const SignIn = () => {
-    const [signIn] = useSignIn();
+    const authStorage = new AuthStorage("accessTokenStorage");
 
+    const [signIn] = useSignIn();
     const [signInError, setSignInError] = useState(null);
 
     const onSubmit = async (values) => {
         setSignInError(null);
         try {
             const { accessToken } = await signIn({ username: values.username, password: values.password });
-            console.log(accessToken);
+            await authStorage.setAccessToken(accessToken)
+            console.log(await authStorage.getAccessToken());
         } catch (err) {
             setSignInError(err.message);
         }
