@@ -1,12 +1,12 @@
 import Text from "./Text";
 import { View, TextInput, Pressable, StyleSheet } from "react-native";
 import { useFormik } from "formik";
+import { useNavigate } from "react-router-native";
 import * as yup from "yup";
 import theme from "../theme";
 import { useState } from "react";
 
 import useSignIn from "../hooks/useSignIn";
-import AuthStorage from "../utils/authStorage";
 
 const styles = StyleSheet.create({
     container: {
@@ -52,7 +52,7 @@ const validationSchema = yup.object().shape({
 });
 
 const SignIn = () => {
-    const authStorage = new AuthStorage("accessTokenStorage");
+    const navigate = useNavigate();
 
     const [signIn] = useSignIn();
     const [signInError, setSignInError] = useState(null);
@@ -60,9 +60,8 @@ const SignIn = () => {
     const onSubmit = async (values) => {
         setSignInError(null);
         try {
-            const { accessToken } = await signIn({ username: values.username, password: values.password });
-            await authStorage.setAccessToken(accessToken)
-            console.log(await authStorage.getAccessToken());
+            await signIn({ username: values.username, password: values.password });
+            navigate("/");
         } catch (err) {
             setSignInError(err.message);
         }
