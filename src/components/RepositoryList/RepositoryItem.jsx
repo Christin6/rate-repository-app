@@ -1,6 +1,6 @@
 import { Image, View, StyleSheet } from "react-native";
-import Text from "./Text";
-import theme from "../theme";
+import Text from "../Text";
+import theme from "../../theme";
 
 const styles = StyleSheet.create({
     card: {
@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
     },
     cardRow: {
         flexDirection: "row",
-        flex: 1,
         gap: 12,
     },
     rowSpaceEvenly: {

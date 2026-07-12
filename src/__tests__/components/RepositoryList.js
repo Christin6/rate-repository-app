@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react-native";
-import { RepositoryListContainer } from "../../components/RepositoryList";
+import { RepositoryListContainer } from "../../components/RepositoryList/";
 
 describe("RepositoryList", () => {
     describe("RepositoryListContainer", () => {
@@ -51,10 +51,13 @@ describe("RepositoryList", () => {
 
             const repositoryNodes = repositories.edges.map((edge) => edge.node);
 
+            onPressItem = jest.fn();
+
             await render(
                 <RepositoryListContainer
                     repositories={repositoryNodes}
                     loading={false}
+                    onPressItem={onPressItem}
                 />,
             );
 
