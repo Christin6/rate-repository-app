@@ -51,16 +51,14 @@ const validationSchema = yup.object().shape({
     password: yup.string().required("Password is required"),
 });
 
-const SignIn = () => {
-    const navigate = useNavigate();
-
-    const [signIn] = useSignIn();
-    const [signInError, setSignInError] = useState(null);
-
+export const SignInContainer = ({ signInError, setSignInError, signIn, navigate }) => {
     const onSubmit = async (values) => {
         setSignInError(null);
         try {
-            await signIn({ username: values.username, password: values.password });
+            await signIn({
+                username: values.username,
+                password: values.password,
+            });
             navigate("/");
         } catch (err) {
             setSignInError(err.message);
@@ -78,9 +76,7 @@ const SignIn = () => {
 
     return (
         <View style={styles.container}>
-            {signInError && (
-                <Text style={styles.errorText}>{signInError}</Text>
-            )}
+            {signInError && <Text style={styles.errorText}>{signInError}</Text>}
 
             <TextInput
                 style={[styles.input, usernameError && styles.inputError]}
@@ -109,6 +105,22 @@ const SignIn = () => {
                 <Text style={styles.buttonText}>Sign in</Text>
             </Pressable>
         </View>
+    );
+};
+
+const SignIn = () => {
+    const navigate = useNavigate();
+
+    const [signIn] = useSignIn();
+    const [signInError, setSignInError] = useState(null);
+
+    return (
+        <SignInContainer
+            signInError={signInError}
+            setSignInError={setSignInError}
+            navigate={navigate}
+            signIn={signIn}
+        />
     );
 };
 
