@@ -10,9 +10,7 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-const RepositoryList = () => {
-    const { repositories, loading } = useRepositories();
-
+export const RepositoryListContainer = ({ repositories, loading }) => {
     if (loading) return <Text>Loading...</Text>;
 
     return (
@@ -22,6 +20,16 @@ const RepositoryList = () => {
             renderItem={({ item, index, separators }) => (
                 <RepositoryItem item={item} />
             )}
+        />
+    );
+};
+
+const RepositoryList = () => {
+    const { repositories, loading } = useRepositories();
+    return (
+        <RepositoryListContainer
+            repositories={repositories}
+            loading={loading}
         />
     );
 };

@@ -46,7 +46,7 @@ const RepositoryItem = ({ item }) => {
         standarizedForkCount = `${(item.forksCount / 1000).toFixed(1)}k`;
     }
     return (
-        <View style={styles.card}>
+        <View style={styles.card} testID="repositoryItem">
             <View style={styles.cardRow}>
                 <Image
                     source={{ uri: item.ownerAvatarUrl }}
