@@ -23,14 +23,19 @@ const AppBar = () => {
     const handleSignOut = async () => {
         await signOut();
         navigate("/");
-    }
+    };
 
     return (
         <View style={styles.container}>
             <ScrollView horizontal>
                 <AppBarTab linkUrl="/">Repositories</AppBarTab>
                 {user ? (
-                    <AppBarTab onPress={handleSignOut}>Sign Out</AppBarTab>
+                    <>
+                        <AppBarTab linkUrl="/review-form">
+                            Create a review
+                        </AppBarTab>
+                        <AppBarTab onPress={handleSignOut}>Sign Out</AppBarTab>
+                    </>
                 ) : (
                     <AppBarTab linkUrl="/signin">Sign in</AppBarTab>
                 )}

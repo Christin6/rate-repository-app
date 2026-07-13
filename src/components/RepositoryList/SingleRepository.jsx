@@ -5,6 +5,8 @@ import RepositoryItem from "./RepositoryItem"; // adjust to your actual path
 import useRepository from "../../hooks/useRepository";
 import theme from "../../theme";
 
+const RATING_SIZE = 50;
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -30,9 +32,9 @@ const styles = StyleSheet.create({
         backgroundColor: theme.colors.textSecondary,
     },
     ratingCircle: {
-        width: 50,
-        height: 50,
-        borderRadius: 25,
+        width: RATING_SIZE,
+        height: RATING_SIZE,
+        borderRadius: RATING_SIZE/2,
         borderWidth: 2,
         borderColor: theme.colors.primary,
         alignItems: "center",

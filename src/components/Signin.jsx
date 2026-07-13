@@ -1,45 +1,14 @@
-import Text from "./Text";
-import { View, TextInput, Pressable, StyleSheet } from "react-native";
+import { View, TextInput, Pressable } from "react-native";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-native";
 import * as yup from "yup";
-import theme from "../theme";
+import { useNavigate } from "react-router-native";
 import { useState } from "react";
 
 import useSignIn from "../hooks/useSignIn";
+import formStyles from "./styles/form";
+import Text from "./Text";
 
-const styles = StyleSheet.create({
-    container: {
-        padding: 16,
-        backgroundColor: theme.colors.textSecondary,
-    },
-    input: {
-        borderWidth: 1,
-        borderColor: theme.colors.textPrimary,
-        borderRadius: 6,
-        padding: 12,
-        marginBottom: 15,
-        fontSize: theme.fontSizes.body,
-    },
-    inputError: {
-        borderColor: "red",
-    },
-    errorText: {
-        color: "red",
-        marginBottom: 15,
-    },
-    button: {
-        backgroundColor: theme.colors.primary,
-        borderRadius: 6,
-        padding: 14,
-        alignItems: "center",
-    },
-    buttonText: {
-        color: theme.colors.textSecondary,
-        fontWeight: theme.fontWeights.bold,
-        fontSize: theme.fontSizes.subheading,
-    },
-});
+const styles = formStyles;
 
 const initialValues = {
     username: "",
