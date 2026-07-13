@@ -2,9 +2,11 @@ import { Pressable, FlatList, View, StyleSheet, Text } from "react-native";
 import { useNavigate } from "react-router-native";
 import { Picker } from "@react-native-picker/picker";
 import { useState } from "react";
+import { Searchbar } from 'react-native-paper';
 
 import RepositoryItem from "./RepositoryItem";
 import useRepositories from "../../hooks/useRepositories";
+import useDebounce from "../../hooks/useDebounce";
 
 const styles = StyleSheet.create({
     separator: {
@@ -19,8 +21,10 @@ export const RepositoryListContainer = ({
     loading,
     onPressItem,
     orderBy,
+    searchKeyword,
     orderDirection,
-    onSortChange
+    onSortChange,
+    onSearchChange
 }) => {
     if (loading) return <Text>Loading...</Text>;
 
@@ -34,20 +38,30 @@ export const RepositoryListContainer = ({
                 </Pressable>
             )}
             ListHeaderComponent={
-                <Picker
-                          selectedValue={`${orderBy}-${orderDirection}`}
-                          onValueChange={onSortChange}
-                        >
-                          <Picker.Item label="Latest repositories" value="CREATED_AT-DESC" />
-                          <Picker.Item
+                <>
+                    <Searchbar
+                          placeholder="Search"
+                          onChangeText={onSearchChange}
+                          value={searchKeyword}
+                        />
+                    <Picker
+                        selectedValue={`${orderBy}-${orderDirection}`}
+                        onValueChange={onSortChange}
+                    >
+                        <Picker.Item
+                            label="Latest repositories"
+                            value="CREATED_AT-DESC"
+                        />
+                        <Picker.Item
                             label="Highest rated repositories"
                             value="RATING_AVERAGE-DESC"
-                          />
-                          <Picker.Item
+                        />
+                        <Picker.Item
                             label="Lowest rated repositories"
                             value="RATING_AVERAGE-ASC"
-                          />
-                        </Picker>
+                        />
+                    </Picker>
+                </>
             }
         />
     );
@@ -56,7 +70,15 @@ export const RepositoryListContainer = ({
 const RepositoryList = () => {
     const [orderBy, setOrderBy] = useState("CREATED_AT");
     const [orderDirection, setOrderDirection] = useState("DESC");
-    const { repositories, loading } = useRepositories(orderBy, orderDirection);
+    const [searchKeyword, setSearchKeyword] = useState("");
+
+    const debouncedSearchKeyword = useDebounce(searchKeyword, 500);
+
+    const { repositories, loading } = useRepositories({
+        orderBy,
+        orderDirection,
+        searchKeyword: debouncedSearchKeyword,
+    });
     const navigate = useNavigate();
 
     const onPressItem = (id) => navigate(`/repository/${id}`);
@@ -72,9 +94,11 @@ const RepositoryList = () => {
             repositories={repositories}
             loading={loading}
             onPressItem={onPressItem}
+            searchKeyword={searchKeyword}
             orderBy={orderBy}
             orderDirection={orderDirection}
             onSortChange={onSortChange}
+            onSearchChange={setSearchKeyword}
         />
     );
 };
