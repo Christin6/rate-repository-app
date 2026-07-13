@@ -12,7 +12,11 @@ const useRepository = (repoId) => {
         ? data.repository
         : null;
 
-    return { repository, loading, error, refetch };
+    const reviews = data
+        ? data.repository.reviews.edges.map(edge => edge.node)
+        : [];
+
+    return { repository, reviews, loading, error, refetch };
 }
 
 export default useRepository;

@@ -40,9 +40,13 @@ const RepositoryItem = ({ item }) => {
     let standarizedForkCount;
     if (item.stargazersCount > 999) {
         standarizedStarCount = `${(item.stargazersCount / 1000).toFixed(1)}k`;
+    } else {
+        standarizedStarCount = item.stargazersCount;
     }
     if (item.forksCount > 999) {
         standarizedForkCount = `${(item.forksCount / 1000).toFixed(1)}k`;
+    } else {
+        standarizedForkCount = item.forksCount;
     }
     return (
         <View style={styles.card} testID="repositoryItem">
