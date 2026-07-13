@@ -1,7 +1,8 @@
-import { View, Pressable, FlatList, StyleSheet } from "react-native";
+import { View, Pressable, FlatList, StyleSheet, Alert } from "react-native";
 import { useNavigate } from "react-router-native";
 
 import useCurrentUser from "../hooks/useCurrentUser";
+import useDeleteReview from "../hooks/useDeleteReview";
 import { ReviewItemContainer } from "./ReviewItem";
 import Text from "./Text";
 import theme from "../theme";
@@ -36,12 +37,27 @@ const ItemSeparator = () => <View style={styles.separator} />;
 
 const UserReview = () => {
     const navigate = useNavigate();
+    const [deleteReview] = useDeleteReview();
     const { user } = useCurrentUser(true);
 
     const reviewNodes = user ? user.reviews.edges.map((edge) => edge.node) : [];
 
     const handleViewRepo = (repo) => {
         navigate(`/repository/${repo.id}`);
+    };
+
+    const handleDeleteReview = (id) => {
+        Alert.alert(
+            "Delete review",
+            "Are you sure you want to delete this review?",
+            [
+                {
+                    text: "Cancel",
+                    style: "cancel",
+                },
+                { text: "Delete", onPress: () => deleteReview(id) },
+            ],
+        );
     };
 
     return (
@@ -52,7 +68,10 @@ const UserReview = () => {
                 ItemSeparatorComponent={ItemSeparator}
                 renderItem={({ item }) => (
                     <View style={styles.card}>
-                        <ReviewItemContainer review={item} repoName={item.repository.fullName} />
+                        <ReviewItemContainer
+                            review={item}
+                            repoName={item.repository.fullName}
+                        />
                         <View style={{ flexDirection: "row", gap: 12 }}>
                             <Pressable
                                 style={[styles.button, styles.viewButton]}
@@ -68,6 +87,7 @@ const UserReview = () => {
                             </Pressable>
                             <Pressable
                                 style={[styles.button, styles.deleteButton]}
+                                onPress={() => handleDeleteReview(item.id)}
                             >
                                 <Text
                                     color="textSecondary"
