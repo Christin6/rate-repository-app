@@ -7,7 +7,6 @@ const RATING_SIZE = 50;
 
 const styles = StyleSheet.create({
     reviewItem: {
-        flexDirection: "row",
         padding: 15,
         backgroundColor: theme.colors.textSecondary,
     },
@@ -43,24 +42,36 @@ const styles = StyleSheet.create({
 });
 
 
-const ReviewItem = ({ review }) => {
+export const ReviewItemContainer = ({ review, repoName }) => {
     const formattedDate = new Date(review.createdAt).toLocaleDateString(
         "en-GB",
         { day: "numeric", month: "short", year: "numeric" },
     );
 
+    const displayName = repoName
+            ? repoName
+            : review.user.username;
+
     return (
-        <View style={styles.reviewItem}>
+        <View style={{"flexDirection": "row"}} >
             <View style={styles.ratingCircle}>
                 <Text style={styles.ratingText}>{review.rating}</Text>
             </View>
             <View style={styles.reviewContent}>
-                <Text style={styles.username}>{review.user.username}</Text>
+                <Text style={styles.username}>{displayName}</Text>
                 <Text style={styles.date}>{formattedDate}</Text>
                 <Text style={styles.reviewText}>{review.text}</Text>
             </View>
         </View>
     );
 };
+
+const ReviewItem = ({ review }) => {
+    return (
+        <View style={styles.reviewItem}>
+            <ReviewItemContainer review={review} />
+        </View>
+    )
+}
 
 export default ReviewItem;
